@@ -9,7 +9,7 @@ void multipleShortestPath();
 
 int main() {
     char c;
-    scanf("%c", &c);
+    while(scanf("%c",&c)!=EOF);
     if (c=='A'){
         createNewGraph(char input);
     }

@@ -8,7 +8,7 @@ CFLAGS = -Wall -g
 main.o: main.c graph.h
 	$(CC) $(CFLAGS) -c main.c
 
-# Making the main file - this is the command that will run the program from 'all'
+# Making the main file
 main: main.o
 	$(CC) $(CFLAGS) main.o -o main -lm
 
