@@ -8,11 +8,14 @@ CFLAGS = -Wall -g
 main.o: main.c graph.h
 	$(CC) $(CFLAGS) -c main.c
 
-# Making the main file
-main: main.o
-	$(CC) $(CFLAGS) main.o -o main -lm
+graph.o: graph.c graph.h
+	$(CC) $(CFLAGS) -c graph.c
 
-all: main
+# Making the main file
+graph: main.o graph.o
+	$(CC) $(CFLAGS) main.o  -o graph -lm
+
+all: graph
 
 clean:
-	rm -f *.o *.a connections
+	rm -f *.o *.a graph
