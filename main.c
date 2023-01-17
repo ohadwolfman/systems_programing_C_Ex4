@@ -1,41 +1,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "graph.h"
-#define dependencies (c!='A')&&(c!='B')&&(c!='D')&&(c!='S')&&(c!='T')
-
-int number_of_vertices;
 
 int main() {
-    char fuction;
-    char c;
-    pnode* head=NULL;
-    while (scanf("%c", &fuction) != EOF){
-        if (fuction == 'A') {
-            if (head!=NULL)
-            {
-                deleteGraph(head);
-            }
-            while (scanf(" %c", &c) != EOF && dependencies) {
-                build_graph( *head);
-            }
+    char function;
+    int num_vertices;
+    pnode *vertices;
+    vertices = (pnode)malloc(num_vertices*sizeof(node));
+
+    scanf(" %d", &num_vertices);
+    pnode *head=(pnode)malloc(sizeof(pnode));
+    while (scanf("%c", &function) != EOF){
+        if (function == 'A') {
+            head!=NULL ? deleteGraph(head) : NULL;
+
+            build_graph( *head,num_vertices, vertices);
             printGraph(*head);
         }
-        if (fuction == 'B') {
-            while (scanf(" %c", &c) != EOF && dependencies) {
-                insert_node(*head);
-            }
+
+        if (function == 'B') {
+            insert_node(*head,num_vertices);
         }
-        if (fuction == 'D') {
-            while (scanf(" %c", &c) != EOF && dependencies);
+        if (function == 'D') {
             delete_node(*head);
         }
-        if (fuction == 'S') {
-            while (scanf(" %c", &c) != EOF && dependencies);
+        if (function == 'S') {
             shortsPath(head);
         }
-        if (fuction == 'T') {
-            while (scanf(" %c", &c) != EOF && dependencies);
-            multipleShortestPath(c);
+        if (function == 'T') {
+            multipleShortestPath(head);
         }
     }
     return 0;

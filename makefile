@@ -13,7 +13,7 @@ graph.o: graph.c graph.h
 
 # Making the main file
 graph: main.o graph.o
-	$(CC) $(CFLAGS) main.o  -o graph -lm
+	$(CC) $(CFLAGS) main.o graph.o -o graph -lm
 
 all: graph
 
