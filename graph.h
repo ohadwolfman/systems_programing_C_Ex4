@@ -15,11 +15,11 @@ typedef struct GRAPH_NODE_ {
     struct GRAPH_NODE_ *next;
 } node, *pnode;
 
-void build_graph(pnode *head, int num_vertices, pnode vertices);
-void insert_node(pnode *head, int num_vertices);
-void delete_node(pnode *head);
+void build_graph(pnode head, int num_vertices, pnode vertices);
+void insert_node(pnode head, int num_vertices);
+void delete_node(pnode head);
 void printGraph(pnode head); //for self debug
-void deleteGraph(pnode* head);
+void deleteGraph(pnode head);
 void shortsPath(pnode head);
 void multipleShortestPath(pnode head);
 

@@ -5,29 +5,30 @@
 int main() {
     char function;
     int num_vertices;
-    pnode *vertices;
-    vertices = (pnode)malloc(num_vertices*sizeof(node));
+    pnode head=NULL;
+    pnode vertices=NULL;
 
-    scanf(" %d", &num_vertices);
-    pnode *head=(pnode)malloc(sizeof(pnode));
     while (scanf("%c", &function) != EOF){
         if (function == 'A') {
+            scanf("%d", &num_vertices);
+            printf("%d",num_vertices);
+            vertices = (pnode)malloc(num_vertices*sizeof(node));
             head!=NULL ? deleteGraph(head) : NULL;
 
-            build_graph( *head,num_vertices, vertices);
-            printGraph(*head);
+            build_graph(head,num_vertices, vertices);
+            printGraph(head);
         }
 
-        if (function == 'B') {
-            insert_node(*head,num_vertices);
+        else if (function == 'B') {
+            insert_node(head,num_vertices);
         }
-        if (function == 'D') {
-            delete_node(*head);
+        else if (function == 'D') {
+            delete_node(head);
         }
-        if (function == 'S') {
+        else if (function == 'S') {
             shortsPath(head);
         }
-        if (function == 'T') {
+        else if (function == 'T') {
             multipleShortestPath(head);
         }
     }

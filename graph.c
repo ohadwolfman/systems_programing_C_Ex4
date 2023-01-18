@@ -3,43 +3,63 @@
 #include "graph.h"
 #define dependencies (c!='A') && (c!='B') && (c!='D') && (c!='S') && (c!='T')
 
-void build_graph(pnode *head,int num_vertices,pnode vertices) {
+void build_graph(pnode head,int num_vertices,pnode vertices) {
     char c;
-    *head = NULL;
 
     //Initializing an array will contain the names of the vertices,
     // the vertices connected in a linked list to the neighbors of each of them
-//    for (int i = 0; i <num_vertices ; ++i) {
-//        vertices[i]=NULL;
-//    }
-//    vertices[0] = head;
-
     for (int i = 0; i < num_vertices; ++i) {
+        pnode new_node = NULL;
         scanf(" %c", &c);
         if(c=='n'){
             int vertex_num, neighbor, weight;
             scanf("%d", &vertex_num);
-            pnode new_node = (pnode)malloc(sizeof(node));
+            new_node = (pnode)malloc(sizeof(node));
             new_node->node_num = vertex_num;
             new_node->edges = NULL;
-            new_node->next = *head;
-            *head = new_node;
+            new_node->next = NULL;
 
-            for (int j = 0; j < num_vertices; ++j) {
-                scanf("%d %d", &neighbor, &weight);
-                pedge new_edge = (pedge)malloc(sizeof(edge));
+            if(scanf("%d", &neighbor)== EOF)
+                break;
+            pedge p = NULL;
+            while(neighbor != 'n') {
+                scanf("%d", &weight);
+                pedge new_edge = (pedge) malloc(sizeof(edge));
                 new_edge->weight = weight;
-                new_edge->next = new_node->edges;
-                new_edge->endpoint = *head;
-                while(new_edge->endpoint->node_num!=neighbor)
+                new_edge->next = NULL;
+                new_edge->endpoint->node_num = neighbor;
+                p=new_edge;
+                while (new_edge->endpoint->node_num != neighbor)
                     new_edge->endpoint = new_edge->endpoint->next;
                 new_node->edges = new_edge;
+                scanf("%d", &neighbor);
+
+                if(new_node->edges ==NULL) {
+                    new_node->edges = p;
+                }
+                else {
+                    new_node->edges->next = p;
+                    p->next=NULL;
+                }
+                c = neighbor;
+            }
+            if(head==NULL) {
+                head->next = new_node;
+            }
+            else {
+                pnode p = head;
+                while(p->next!=NULL)
+                    p=p->next;
+                p->next=new_node;
+                new_node->next = NULL;
             }
         }
     }
+    vertices=head;
+    printGraph(vertices);
 }
 
-void insert_node(pnode *head, int num_vertices) {
+void insert_node(pnode head, int num_vertices) {
 
 }
 
@@ -57,7 +77,7 @@ void insert_node(pnode *head, int num_vertices) {
 //
 //    }
 
-void delete_node(pnode *head) {
+void delete_node(pnode head) {
 
 }
 
@@ -69,7 +89,7 @@ void multipleShortestPath(pnode head) {
 
 }
 
-void deleteGraph(pnode* head){
+void deleteGraph(pnode head){
 
 }
 
