@@ -10,53 +10,50 @@ void build_graph(pnode head,int num_vertices,pnode vertices) {
     // the vertices connected in a linked list to the neighbors of each of them
     for (int i = 0; i < num_vertices; ++i) {
         pnode new_node = NULL;
-        scanf(" %c", &c);
-        if(c=='n'){
+        scanf("%c", &c);
+        if(c=='n') {
             int vertex_num, neighbor, weight;
             scanf("%d", &vertex_num);
-            new_node = (pnode)malloc(sizeof(node));
+            new_node = (pnode) malloc(sizeof(node));
             new_node->node_num = vertex_num;
             new_node->edges = NULL;
             new_node->next = NULL;
 
-            if(scanf("%d", &neighbor)== EOF)
+            if (scanf("%d", &neighbor) == EOF) //if we arrived to the last vertex with no edges
                 break;
+
             pedge p = NULL;
-            while(neighbor != 'n') {
+            while (neighbor != 'n') {    //THE neighbor never won't be n
                 scanf("%d", &weight);
                 pedge new_edge = (pedge) malloc(sizeof(edge));
                 new_edge->weight = weight;
                 new_edge->next = NULL;
                 new_edge->endpoint->node_num = neighbor;
-                p=new_edge;
-                while (new_edge->endpoint->node_num != neighbor)
-                    new_edge->endpoint = new_edge->endpoint->next;
-                new_node->edges = new_edge;
-                scanf("%d", &neighbor);
+                p = new_edge;
 
-                if(new_node->edges ==NULL) {
+                if (new_node->edges == NULL) {
                     new_node->edges = p;
+                } else {
+                    new_node->edges->next = p;
+                    p->next = NULL;
+                }
+                scanf("%d", &neighbor);
+                c = (char) neighbor;
+
+                if (head == NULL) {
+                    head->next = new_node;
                 }
                 else {
-                    new_node->edges->next = p;
-                    p->next=NULL;
+                    pnode p = head;
+                    while (p->next != NULL)
+                        p = p->next;
+                    p->next = new_node;
+                    new_node->next = NULL;
                 }
-                c = neighbor;
-            }
-            if(head==NULL) {
-                head->next = new_node;
-            }
-            else {
-                pnode p = head;
-                while(p->next!=NULL)
-                    p=p->next;
-                p->next=new_node;
-                new_node->next = NULL;
             }
         }
     }
     vertices=head;
-    printGraph(vertices);
 }
 
 void insert_node(pnode head, int num_vertices) {

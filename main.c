@@ -11,7 +11,6 @@ int main() {
     while (scanf("%c", &function) != EOF){
         if (function == 'A') {
             scanf("%d", &num_vertices);
-            printf("%d",num_vertices);
             vertices = (pnode)malloc(num_vertices*sizeof(node));
             head!=NULL ? deleteGraph(head) : NULL;
 
