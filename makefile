@@ -1,5 +1,4 @@
 CC = gcc
-AR = ar -rcs
 CFLAGS = -Wall -g
 
 .PHONY: clean all

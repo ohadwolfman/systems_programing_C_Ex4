@@ -22,13 +22,13 @@ void build_graph(pnode head,int num_vertices,pnode vertices) {
             if (scanf("%d", &neighbor) == EOF) //if we arrived to the last vertex with no edges
                 break;
 
-            pedge p = NULL;
-            while (neighbor != 'n') {    //THE neighbor never won't be n
+            pedge p;
+            while (neighbor != 'n'){
                 scanf("%d", &weight);
                 pedge new_edge = (pedge) malloc(sizeof(edge));
                 new_edge->weight = weight;
                 new_edge->next = NULL;
-                new_edge->endpoint->node_num = neighbor;
+                new_edge->endpoint=vertices + neighbor;
                 p = new_edge;
 
                 if (new_node->edges == NULL) {
@@ -37,11 +37,10 @@ void build_graph(pnode head,int num_vertices,pnode vertices) {
                     new_node->edges->next = p;
                     p->next = NULL;
                 }
-                scanf("%d", &neighbor);
-                c = (char) neighbor;
 
                 if (head == NULL) {
-                    head->next = new_node;
+                    head = new_node;
+                    head->next=NULL;
                 }
                 else {
                     pnode p = head;
@@ -50,6 +49,8 @@ void build_graph(pnode head,int num_vertices,pnode vertices) {
                     p->next = new_node;
                     new_node->next = NULL;
                 }
+                scanf("%d", &neighbor);
+                c = neighbor;
             }
         }
     }
@@ -59,20 +60,6 @@ void build_graph(pnode head,int num_vertices,pnode vertices) {
 void insert_node(pnode head, int num_vertices) {
 
 }
-
-//    struct node *ver;
-//    int adj;
-//    int edge;
-//    char c;
-//    scanf(" %d", &ver);
-//    ver = (struct node*)malloc(sizeof (struct node*));
-//    vertices[0] = ver;
-//    scanf(" %d", &adj);
-//    ver->adj = adj;
-//    while (scanf(" %c", &c) != EOF && dependencies) {
-//        ver->edge = (int)c;
-//
-//    }
 
 void delete_node(pnode head) {
 

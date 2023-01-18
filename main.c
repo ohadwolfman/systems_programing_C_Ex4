@@ -12,7 +12,7 @@ int main() {
         if (function == 'A') {
             scanf("%d", &num_vertices);
             vertices = (pnode)malloc(num_vertices*sizeof(node));
-            head!=NULL ? deleteGraph(head) : NULL;
+            head!=NULL ? deleteGraph(head) : head;
 
             build_graph(head,num_vertices, vertices);
             printGraph(head);
