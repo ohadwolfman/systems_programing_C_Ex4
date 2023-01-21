@@ -345,7 +345,7 @@ void shortsPath(pnode head)
     }
     end_node = end_node - '0';
     if (dist[end_node] != INFINITE) {
-        printf("Dijkstra shortest path:%d\n", dist[end_node]);
+        printf("Dijsktra shortest path: %d\n", dist[end_node]);
     }
     else
     {
@@ -381,91 +381,8 @@ void multipleShortestPath(pnode head)
     }
     current_node = TSP(head, nodes_to_visit, num_vert);
     Index--;
-    printf("TSP shortest path:%d\n", current_node);
-
-    // int num_vertices = 0;
-    //pnode temp = head;
-    //while (temp != NULL)
-    //{
-    //	num_vertices++;
-    //	temp = temp->next;
-    //}
-    //int* dist = (int*)malloc(num_vertices * sizeof(int));
-    //int* visited = (int*)malloc(num_vertices * sizeof(int));
-    //int* previous = (int*)malloc(num_vertices * sizeof(int));
-    //int current_node;
-    //int i, j;
-
-    //// Initialize distances, visited and previous arrays
-    //for (i = 0; i < num_vertices; i++) {
-    //	dist[i] = INFINITE;
-    //	visited[i] = 0;
-    //	previous[i] = -1;
-    //}
-    //int num_vert;
-    //num_vert = String[Index++];
-    //while (num_vert == ' ')
-    //{
-    //	num_vert = String[Index++];
-    //}
-    //num_vert = num_vert - '0';
-    //int* nodes_to_visit = (int*)malloc(num_vert * sizeof(int));
-
-    //// Set the distance of the starting node to 0
-    //int start_node;
-
-    //for (int i = 0; i < num_vert; i++)
-    //{
-    //	current_node = String[Index++];
-    //	while (current_node == ' ')
-    //	{
-    //		current_node = String[Index++];
-    //	}
-    //	current_node = current_node - '0';
-    //	nodes_to_visit[i] = current_node;
-    //}
-    //start_node = nodes_to_visit[0];
-    //dist[start_node] = 0;
-    //for (i = 0; i < num_vertices; i++) {
-    //	current_node = -1;
-    //	for (j = 0; j < num_vertices; j++) {
-    //		if (!visited[j] && (current_node == -1 || dist[j] < dist[current_node])) {
-    //			current_node = j;
-    //		}
-    //	}
-    //	visited[current_node] = 1;
-    //	pnode current = head + current_node;
-    //	pedge edge = current->edges;
-    //	while (edge != NULL) {
-    //		int new_dist = dist[current_node] + edge->weight;
-    //		if (dist[edge->endpoint->node_num] < 0)
-    //		{
-    //			dist[edge->endpoint->node_num] = new_dist;
-    //			previous[edge->endpoint->node_num] = current_node;
-    //		}
-    //		if (new_dist < dist[edge->endpoint->node_num]) {
-    //			dist[edge->endpoint->node_num] = new_dist;
-    //			previous[edge->endpoint->node_num] = current_node;
-    //		}
-    //		edge = edge->next;
-    //	}
-    //}
-    //int end_node = nodes_to_visit[num_vert - 1];
-    //if (dist[end_node] != INFINITE)
-    //{
-    //	printf("TSP shortest path:%d\n", dist[end_node]);
-    //}
-    //else {
-    //	printf("No path from node %d to node %d", start_node, end_node);
-    //}
-
-    //free(visited);
-    //free(nodes_to_visit);
-    //Index--;
+    printf("TSP shortest path: %d\n", current_node);
 }
-
-
-
 
 void deleteGraph(pnode head) {
     pnode current = head;
