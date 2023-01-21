@@ -121,16 +121,29 @@ pnode insert_node(pnode* head, pnode vertices, int* size)
         vertex_num = String[Index++];
     }
     vertex_num = vertex_num - '0';
-    if (vertices[vertex_num].node_num != -1) {
+    if (vertex_num < *size && vertices[vertex_num].node_num > 0) {
         delete_edge(*head,vertex_num);
         new_node = &vertices[vertex_num];
+    }
+    else if (vertex_num<*size&& vertices[vertex_num].node_num<0)
+    {
+        new_node = &vertices[vertex_num];
+
     }
     else
     {
         ch = 1;
         loop = *size;
-        *size = *size + 1;
+        if (vertex_num>*size)
+        {
+            *size = vertex_num+1;
+
+        }
         vertices = (pnode)realloc(vertices, *size * sizeof(node));
+        for (int i = loop; i < *size; i++)
+        {
+            vertices[i].node_num = -1;
+        }
         vertices[*size - 1].node_num = vertex_num;
         vertices[*size - 1].edges = NULL;
         vertices[*size - 1].next = NULL;
@@ -193,7 +206,10 @@ pnode insert_node(pnode* head, pnode vertices, int* size)
         if (ch == 0)
         {
             pnode p = *head;
-            while (p->node_num != vertex_num);
+            while (p->node_num != vertex_num)
+            {
+                p = p->next;
+            };
             p->edges = new_node->edges;
         }
         else
@@ -202,8 +218,8 @@ pnode insert_node(pnode* head, pnode vertices, int* size)
             while (p->next != NULL) {
                 p = p->next;
             }
-            p->next = &vertices[loop];
-            vertices[loop++].next = NULL;
+            p->next = &vertices[*size - 1];
+            vertices[*size - 1].next = NULL;
         }
     }
     return vertices;
@@ -254,6 +270,7 @@ void delete_node(pnode head)
             edge = temp;
         }
     }
+    head[vertex_num].edges = NULL;
 }
 
 void delete_edge(pnode head, int node_num) {
@@ -524,9 +541,19 @@ int  Dijkstra(pnode head, int start, int node1)
     int start_node = start;
     dist[start_node] = 0;
     for (i = 0; i < num_vertices; i++) {
-        current_node = -1;
+        if (head[i].node_num != -1)
+        {
+            current_node = -1;
+        }
         for (j = 0; j < num_vertices; j++) {
-            if (!visited[j] && (current_node == -1 || dist[j] < dist[current_node])) {
+            while (head[j].node_num == -1)
+            {
+                j++;
+            }
+            if (!visited[j] && (current_node == -1 || dist[j] < dist[current_node]))
+            {
+
+
                 current_node = j;
             }
         }
