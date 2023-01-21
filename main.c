@@ -2,41 +2,57 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "graph.h"
-
-int main() {
-    graph* G = NULL;
+extern int Index;
+int main()
+{
+    Index = 0;
     char function;
-
     int num_vertices;
-
-    scanf("%c", &function);
-    while (function != EOF) {
-
+    pnode head = NULL;
+    pnode vertices = NULL;
+    fgets(String, 200, stdin);
+    function = String[Index++];
+    while (function != EOF && function != '\0')
+    {
         if (function == 'A') {
-            scanf(" %d", &num_vertices);
-            if (G != NULL) {
-                deleteGraph(G->head);
-            }
-            G = createGraphHeader();
-            G->number_vertices = num_vertices;
+            num_vertices = String[Index++];
+            while (num_vertices == ' ')
+            {
+                num_vertices = String[Index++];
 
-            build_graph(G);
-            printGraph(*G);
+            }
+            num_vertices = num_vertices - '0';
+            if (head != NULL)
+            {
+                // deleteGraph(vertices);
+                vertices = NULL;
+                head = NULL;
+            }
+            vertices = (pnode)malloc(num_vertices * sizeof(node));
+            build_graph(&head, num_vertices, vertices);
         }
-        else if (function == 'B') {
-            insert_node(G->head);
+
+        else if (function == 'B')
+        {
+            vertices=insert_node(&head,vertices,&num_vertices);
         }
-        else if (function == 'D') {
-            delete_node(G->head);
+        else if (function == 'D')
+        {
+            delete_node(head);
         }
-        else if (function == 'S') {
-            shortsPath(G->head);
+        else if (function == 'S')
+        {
+            shortsPath(head);
         }
-        else if (function == 'T') {
-            multipleShortestPath(G->head);
+        else if (function == 'T')
+        {
+            multipleShortestPath(head);
         }
-        scanf(" %c", &function);
+        function = String[Index++];
+        while (function == ' ')
+        {
+            function = String[Index++];
+        }
     }
-    free(G);
     return 0;
 }
