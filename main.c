@@ -2,7 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "graph.h"
-extern int Index;
+
+
+//extern int Index;
 int main()
 {
     Index = 0;
