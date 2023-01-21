@@ -1,35 +1,42 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include "graph.h"
 
 int main() {
+    graph* G = NULL;
     char function;
+
     int num_vertices;
-    pnode head=NULL;
-    pnode vertices=NULL;
 
-    while (scanf("%c", &function) != EOF){
+    scanf("%c", &function);
+    while (function != EOF) {
+
         if (function == 'A') {
-            scanf("%d", &num_vertices);
-            vertices = (pnode)malloc(num_vertices*sizeof(node));
-            head!=NULL ? deleteGraph(head) : head;
+            scanf(" %d", &num_vertices);
+            if (G != NULL) {
+                deleteGraph(G->head);
+            }
+            G = createGraphHeader();
+            G->number_vertices = num_vertices;
 
-            build_graph(head,num_vertices, vertices);
-            printGraph(head);
+            build_graph(G);
+            printGraph(*G);
         }
-
         else if (function == 'B') {
-            insert_node(head,num_vertices);
+            insert_node(G->head);
         }
         else if (function == 'D') {
-            delete_node(head);
+            delete_node(G->head);
         }
         else if (function == 'S') {
-            shortsPath(head);
+            shortsPath(G->head);
         }
         else if (function == 'T') {
-            multipleShortestPath(head);
+            multipleShortestPath(G->head);
         }
+        scanf(" %c", &function);
     }
+    free(G);
     return 0;
 }
