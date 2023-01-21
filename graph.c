@@ -190,9 +190,11 @@ pnode insert_node(pnode* head, pnode vertices, int* size)
         (*head)->next = NULL;
     }
     else {
-        if (check == 0)
+        if (ch == 0)
         {
-
+            pnode p = *head;
+            while (p->node_num != vertex_num);
+            p->edges = new_node->edges;
         }
         else
         {
