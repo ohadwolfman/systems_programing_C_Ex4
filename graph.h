@@ -1,8 +1,5 @@
 #ifndef GRAPH_H
 #define GRAPH_H
-char String[200];
-int Index;
-
 typedef struct GRAPH_NODE_* pnode;
 
 typedef struct edge_ {
@@ -16,7 +13,6 @@ typedef struct GRAPH_NODE_ {
     pedge edges;
     struct GRAPH_NODE_* next;
 } node, * pnode;
-
 int check(int n);
 void build_graph(pnode* head, int num_vertices, pnode vertices);
 pnode insert_node(pnode* head, pnode vertices, int* size);

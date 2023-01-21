@@ -2,9 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "graph.h"
-
-
-//extern int Index;
+extern int Index;
+extern char String[200];
 int main()
 {
     Index = 0;

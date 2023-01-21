@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include "graph.h"
 #define INFINITE 9999999
-extern int Index;
-
+char String[200];
+int Index;
 int check(int n)
 {
     if (n == EOF || n == 65 || n == 66 || n == 68 || n == 83 || n == 84 || n == '\0')
