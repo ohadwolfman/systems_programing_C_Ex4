@@ -24,4 +24,5 @@ int  Dijkstra(pnode head, int start, int node1);
 void multipleShortestPath(pnode head);
 void delete_edge(pnode head, int node_num);
 int TSP(pnode head, int* nodes_to_visit, int size);
+void permute(int arr[], int n, int result[][10], int* count, int level);
 #endif

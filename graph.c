@@ -18,7 +18,6 @@ int check(int n)
 }
 void build_graph(pnode* head, int num_vertices, pnode vertices) {
     char c;
-
     for (int i = 0; i < num_vertices; ++i)
     {
         c = String[Index++];
@@ -110,6 +109,7 @@ void build_graph(pnode* head, int num_vertices, pnode vertices) {
     }
     Index--;
 }
+
 pnode insert_node(pnode* head, pnode vertices, int* size)
 {
     pnode new_node;
@@ -123,12 +123,12 @@ pnode insert_node(pnode* head, pnode vertices, int* size)
     vertex_num = vertex_num - '0';
     if (vertex_num < *size && vertices[vertex_num].node_num > 0) {
         delete_edge(*head,vertex_num);
+        vertices[vertex_num].edges = NULL;
         new_node = &vertices[vertex_num];
     }
     else if (vertex_num<*size&& vertices[vertex_num].node_num<0)
     {
         new_node = &vertices[vertex_num];
-
     }
     else
     {
@@ -137,7 +137,6 @@ pnode insert_node(pnode* head, pnode vertices, int* size)
         if (vertex_num>*size)
         {
             *size = vertex_num+1;
-
         }
         vertices = (pnode)realloc(vertices, *size * sizeof(node));
         for (int i = loop; i < *size; i++)
@@ -349,13 +348,11 @@ void shortsPath(pnode head)
     }
     else
     {
-        printf("No path from node %d to node %d", start_node, end_node);
+        printf("-1");
     }
-
     free(dist);
     free(visited);
     free(previous);
-
 }
 
 void multipleShortestPath(pnode head)
@@ -381,8 +378,11 @@ void multipleShortestPath(pnode head)
     }
     current_node = TSP(head, nodes_to_visit, num_vert);
     Index--;
+    if (current_node == INFINITE)
+        current_node = -1;
     printf("TSP shortest path: %d\n", current_node);
 }
+
 
 void deleteGraph(pnode head) {
     pnode current = head;
@@ -414,28 +414,60 @@ void printGraph(pnode head) {
     }
     printf("-------------\n");
 }
+void permute(int arr[], int n, int result[][10], int* count, int level) {
+    if (level == n) {
+        for (int i = 0; i < n; i++)
+        {
+            result[*count][i] = arr[i];
+        }
+        *count += 1;
+        return;
+    }
+    for (int i = level; i < n; i++) {
+        int temp = arr[level];
+        arr[level] = arr[i];
+        arr[i] = temp;
+        permute(arr, n, result, count, level + 1);
+        temp = arr[level];
+        arr[level] = arr[i];
+        arr[i] = temp;
+    }
+}
 
 int TSP(pnode head, int* nodes_to_visit, int size) {
     int* check = (int*)malloc(size * sizeof(int));
-    for (int i = 0; i < size; i++)
-    {
-        check[i] = 0;
-    }
     int min_cost = 0;
-    check[0] = 1;
-    for (int i = 0; i < size; i++)
+    int result[100][10] = { 0 };
+    int count = 0;
+    int final = INFINITE;
+    permute(nodes_to_visit,size, result, &count, 0);
+    for (int j = 0; j < count; j++)
     {
-        if (check[(i+1)%size]!=1)
+        for (int i = 0; i < size; i++)
         {
-            int node1 = nodes_to_visit[i];
-            int node2 = nodes_to_visit[(i + 1) % size];
-            min_cost += Dijkstra(head, node1, node2);
-            check[i+1] = 1;
+            check[i] = 0;
         }
+        min_cost = 0;
+        check[0] = 1;
+        for (int i = 0; i < size; i++)
+        {
+            if (check[(i + 1) % size] != 1)
+            {
+                int node1 = result[j][i];
+                int node2 = result[j][(i + 1) % size];
+                min_cost += Dijkstra(head, node1, node2);
+                check[i + 1] = 1;
+            }
 
+        }
+        if (min_cost<final&&min_cost>0)
+        {
+            final = min_cost;
+        }
     }
-    return min_cost;
+    return final;
 }
+
 int  Dijkstra(pnode head, int start, int node1)
 {
     int num_vertices = 0;
@@ -469,8 +501,6 @@ int  Dijkstra(pnode head, int start, int node1)
             }
             if (!visited[j] && (current_node == -1 || dist[j] < dist[current_node]))
             {
-
-
                 current_node = j;
             }
         }
@@ -479,6 +509,10 @@ int  Dijkstra(pnode head, int start, int node1)
         pedge edge = current->edges;
         while (edge != NULL) {
             int new_dist = dist[current_node] + edge->weight;
+            if (new_dist>INFINITE)
+            {
+                new_dist = edge->weight;
+            }
             if (new_dist < dist[edge->endpoint->node_num]) {
                 dist[edge->endpoint->node_num] = new_dist;
                 previous[edge->endpoint->node_num] = current_node;
@@ -486,11 +520,10 @@ int  Dijkstra(pnode head, int start, int node1)
             edge = edge->next;
         }
     }
-
     int end_node = node1;
     start=dist[end_node] ;
-    free(dist);
-    free(visited);
-    free(previous);
+	free(dist);
+	free(visited);
+	free(previous);
     return start;
 }
