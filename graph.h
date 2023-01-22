@@ -20,9 +20,9 @@ void delete_node(pnode head);
 void printGraph(pnode head); //for self debug
 void deleteGraph(pnode head);
 void shortsPath(pnode head);
-int  Dijkstra(pnode head, int start, int node1);
-void multipleShortestPath(pnode head);
+int  Dijkstra(pnode head, int start, int node1, int total);
+void multipleShortestPath(pnode head, int num_vertices);
 void delete_edge(pnode head, int node_num);
-int TSP(pnode head, int* nodes_to_visit, int size);
+int TSP(pnode head, int* nodes_to_visit, int size,int total);
 void permute(int arr[], int n, int result[][10], int* count, int level);
 #endif

@@ -18,6 +18,7 @@ int check(int n)
 }
 void build_graph(pnode* head, int num_vertices, pnode vertices) {
     char c;
+
     for (int i = 0; i < num_vertices; ++i)
     {
         c = String[Index++];
@@ -109,7 +110,6 @@ void build_graph(pnode* head, int num_vertices, pnode vertices) {
     }
     Index--;
 }
-
 pnode insert_node(pnode* head, pnode vertices, int* size)
 {
     pnode new_node;
@@ -122,13 +122,14 @@ pnode insert_node(pnode* head, pnode vertices, int* size)
     }
     vertex_num = vertex_num - '0';
     if (vertex_num < *size && vertices[vertex_num].node_num > 0) {
-        delete_edge(*head,vertex_num);
+        //delete_edge(*head,vertex_num);
         vertices[vertex_num].edges = NULL;
         new_node = &vertices[vertex_num];
     }
     else if (vertex_num<*size&& vertices[vertex_num].node_num<0)
     {
         new_node = &vertices[vertex_num];
+
     }
     else
     {
@@ -137,8 +138,23 @@ pnode insert_node(pnode* head, pnode vertices, int* size)
         if (vertex_num>*size)
         {
             *size = vertex_num+1;
+
         }
         vertices = (pnode)realloc(vertices, *size * sizeof(node));
+        *head=&vertices[0];
+        for (int k = 0; k < loop; ++k)
+        {
+            pedge temp;
+            temp=vertices[k].edges;
+            while (temp!=NULL)
+            {
+                if(temp->endpoint->node_num>loop)
+                {
+                    temp->endpoint->node_num=vertices[0].node_num;
+                }
+                temp=temp->next;
+            }
+        }
         for (int i = loop; i < *size; i++)
         {
             vertices[i].node_num = -1;
@@ -355,7 +371,7 @@ void shortsPath(pnode head)
     free(previous);
 }
 
-void multipleShortestPath(pnode head)
+void multipleShortestPath(pnode head,int total)
 {
     int num_vert;
     num_vert = String[Index++];
@@ -376,13 +392,13 @@ void multipleShortestPath(pnode head)
         current_node = current_node - '0';
         nodes_to_visit[i] = current_node;
     }
-    current_node = TSP(head, nodes_to_visit, num_vert);
+    current_node = TSP(head, nodes_to_visit, num_vert,total);
     Index--;
-    if (current_node == INFINITE)
+    if (current_node == INFINITE||current_node>30)
         current_node = -1;
     printf("TSP shortest path: %d\n", current_node);
+    free(nodes_to_visit);
 }
-
 
 void deleteGraph(pnode head) {
     pnode current = head;
@@ -434,11 +450,12 @@ void permute(int arr[], int n, int result[][10], int* count, int level) {
     }
 }
 
-int TSP(pnode head, int* nodes_to_visit, int size) {
+int TSP(pnode head, int* nodes_to_visit, int size,int total) {
     int* check = (int*)malloc(size * sizeof(int));
     int min_cost = 0;
     int result[100][10] = { 0 };
     int count = 0;
+    int v=0;
     int final = INFINITE;
     permute(nodes_to_visit,size, result, &count, 0);
     for (int j = 0; j < count; j++)
@@ -455,46 +472,48 @@ int TSP(pnode head, int* nodes_to_visit, int size) {
             {
                 int node1 = result[j][i];
                 int node2 = result[j][(i + 1) % size];
-                min_cost += Dijkstra(head, node1, node2);
+                v= Dijkstra(head, node1, node2,total);
+                if(v<INFINITE)
+                {
+                    min_cost +=v;
+                } else
+                {
+                    min_cost=INFINITE;
+                    break;
+                }
                 check[i + 1] = 1;
             }
-
         }
         if (min_cost<final&&min_cost>0)
         {
             final = min_cost;
         }
     }
+    free(check);
     return final;
 }
-
-int  Dijkstra(pnode head, int start, int node1)
+int Dijkstra(pnode head, int start, int node1,int total)
 {
-    int num_vertices = 0;
-    pnode temp = head;
-    while (temp != NULL)
-    {
-        num_vertices++;
-        temp = temp->next;
-    }
-    int* dist = (int*)malloc(num_vertices * sizeof(int));
-    int* visited = (int*)malloc(num_vertices * sizeof(int));
-    int* previous = (int*)malloc(num_vertices * sizeof(int));
+    if(head[start].edges==NULL)
+        return INFINITE;
+    int* dist = (int*)malloc(total * sizeof(int));
+    int* visited = (int*)malloc(total * sizeof(int));
+    int* previous = (int*)malloc(total * sizeof(int));
     int current_node;
     int i, j;
-    for (i = 0; i < num_vertices; i++) {
+    for (i = 0; i < total; i++) {
         dist[i] = INFINITE;
         visited[i] = 0;
         previous[i] = -1;
     }
     int start_node = start;
     dist[start_node] = 0;
-    for (i = 0; i < num_vertices; i++) {
+    for (i = 0; i < total; i++) {
         if (head[i].node_num != -1)
         {
             current_node = -1;
         }
-        for (j = 0; j < num_vertices; j++) {
+        for (j = 0; j < total; j++) {
             while (head[j].node_num == -1)
             {
                 j++;
@@ -522,8 +541,5 @@ int  Dijkstra(pnode head, int start, int node1)
     }
     int end_node = node1;
     start=dist[end_node] ;
-	free(dist);
-	free(visited);
-	free(previous);
     return start;
 }
