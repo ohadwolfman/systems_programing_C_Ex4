@@ -360,7 +360,7 @@ void shortsPath(pnode head)
     }
     end_node = end_node - '0';
     if (dist[end_node] != INFINITE) {
-        printf("Dijsktra shortest path: %d\n", dist[end_node]);
+        printf("Dijsktra shortest path: %d \n", dist[end_node]);
     }
     else
     {
@@ -396,7 +396,7 @@ void multipleShortestPath(pnode head,int total)
     Index--;
     if (current_node == INFINITE||current_node>30)
         current_node = -1;
-    printf("TSP shortest path: %d\n", current_node);
+    printf("TSP shortest path: %d \n", current_node);
     free(nodes_to_visit);
 }
 
